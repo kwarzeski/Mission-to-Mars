@@ -11,8 +11,12 @@ mongo = PyMongo(app)
 # homepage route
 @app.route("/")
 def index():
+   print("This is app.")
    # find the "mars" collection in our database
+   # print(dir(mongo.db))
+   # print(dir(mongo.db.mars))
    mars = mongo.db.mars.find_one()
+   # print("After find_one")
    # return an HTML template using an index.html
    return render_template("index.html", mars=mars)
    
@@ -21,7 +25,9 @@ def index():
 def scrape():
    mars = mongo.db.mars
    # newly scraped data
+   print("running scrape all function")
    mars_data = scraping.scrape_all()
+   print("did that work?")
    # .update_one(query_parameter, {"$set": data}, options)
    # inserting data, but not if an identical record already exists
    mars.update_one({}, {"$set":mars_data}, upsert=True)
